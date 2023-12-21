@@ -2,7 +2,11 @@
 A table of patients where you can add, update, and delete. You can also search by name and mobile number
 
 # Running the Program
-- hospitalApp_V2 > hospitalSetup_V2 > hospital.exe
+- download zip of all code
+- disable Windows Defender Real-Time protection so that setup.exe doesn't get deleted automatically after download
+- setup > setup.exe
+    - after running setup.exe, follow instructions to launch hospital program
+- Re-enable Windows Defender Real-Time protection
 
 ## Architecture
 - Java JFrame form built with NetBeans IDE
@@ -21,3 +25,8 @@ Series which helped me code the table functionalities: https://www.youtube.com/w
 - Needed to compile the project in JDK 11 and download JRE11 from (https://adoptium.net/temurin/releases/?version=11) in order to successfully create and run the executable file
 - Needed to deactivate Windows Defender Real-Time protection to run the setup.exe
     - don't need to do this to run the hospital file itself
+
+# Hospital Program Versions:
+
+### V1
+![Program V1 of Hospital Patient Application](./images/Hospital_V1.jpeg)
