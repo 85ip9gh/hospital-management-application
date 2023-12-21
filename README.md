@@ -2,6 +2,11 @@
 A table of patients where you can add, update, and delete. You can also search by name and mobile number
 
 
+## Architecture
+- Java JFrame form built with NetBeans IDE
+- Embedded H2 Database
+
+
 
 ### Helpful Videos:
 

@@ -4,10 +4,7 @@
  */
 package hospital;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Vector;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -107,6 +104,11 @@ public class Patients extends javax.swing.JFrame {
 
         update.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         update.setText("Update");
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateMouseClicked(evt);
+            }
+        });
 
         jLabel7.setText("Ailment:");
 
@@ -396,6 +398,73 @@ public class Patients extends javax.swing.JFrame {
     private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateActionPerformed
+
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
+        
+        String dateVal = date.getText();
+        String nameVal = name.getText();
+        String numberVal = number.getText();
+        String addressVal = address.getText();
+        String ageVal = age.getText();
+        String doctorVal = doctor.getText();
+        String ailmentVal = ailment.getText();
+        String feesVal = fees.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's name");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's address");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's age");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's fees");
+        }else{
+            
+            try{
+                
+                DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+                int selectedIndex = patients_table.getSelectedRow();
+                String id = model.getValueAt(selectedIndex, 0).toString();
+                
+                  PreparedStatement pst = connection.prepareStatement("update patients set DATE_OF_VISIT =?, NAME =?, NUMBER =?, ADDRESS =?, AGE =?, DOCTOR_VISITED =?, AILMENT =?, FEES =? where patient_id=?");
+
+                       pst.setString(1, dateVal);
+                       pst.setString(2, nameVal);
+                       pst.setString(3, numberVal);
+                       pst.setString(4, addressVal);
+                       pst.setString(5, ageVal);
+                       pst.setString(6, doctorVal);
+                       pst.setString(7, ailmentVal);
+                       pst.setString(8, feesVal);
+                       pst.setString(9, id);
+                       
+                       pst.executeUpdate();
+                       JOptionPane.showMessageDialog(null, "Patient " + nameVal + " updated successfully");
+                       showPatients();
+                       
+                       date.setText("");
+                       name.setText("");
+                       number.setText("");
+                       address.setText("");
+                       age.setText("");
+                       doctor.setText("");
+                       ailment.setText("");
+                       fees.setText("");
+            }catch(Exception ex){
+                System.out.println("Insert Error: \n" + ex);
+            }
+                            
+        }
+        
+    }//GEN-LAST:event_updateMouseClicked
 
     /**
      * @param args the command line arguments
