@@ -38,6 +38,8 @@ public class Patients extends javax.swing.JFrame {
             ResultSetMetaData meta = set.getMetaData();
             columnCount = meta.getColumnCount();
             DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+           
+            date.setText("yyyy-mm-dd"); 
             
             model.setRowCount(0);
             
@@ -96,8 +98,8 @@ public class Patients extends javax.swing.JFrame {
         fees = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         add = new javax.swing.JButton();
-        date = new javax.swing.JFormattedTextField();
         doctor = new javax.swing.JTextField();
+        date = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,16 +180,16 @@ public class Patients extends javax.swing.JFrame {
             }
         });
 
+        doctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doctorActionPerformed(evt);
+            }
+        });
+
         date.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
         date.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dateActionPerformed(evt);
-            }
-        });
-
-        doctor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                doctorActionPerformed(evt);
             }
         });
 
@@ -232,8 +234,8 @@ public class Patients extends javax.swing.JFrame {
                                         .addComponent(address)
                                         .addComponent(number)
                                         .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -370,10 +372,6 @@ public class Patients extends javax.swing.JFrame {
 
     }//GEN-LAST:event_addActionPerformed
 
-    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateActionPerformed
-
     private void doctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_doctorActionPerformed
@@ -394,6 +392,10 @@ public class Patients extends javax.swing.JFrame {
         ailment.setText(model.getValueAt(selectedIndex, 7).toString());
         fees.setText(model.getValueAt(selectedIndex, 8).toString());
     }//GEN-LAST:event_patients_tableMouseClicked
+
+    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateActionPerformed
 
     /**
      * @param args the command line arguments
