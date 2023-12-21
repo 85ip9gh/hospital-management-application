@@ -1,27 +1,71 @@
-package com.mycompany.hospitalmanagementapplication;
-
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import javax.swing.JOptionPane;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+package hospital;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author pesanth
  */
-public class Home extends javax.swing.JFrame {
+public class Patients extends javax.swing.JFrame {
+    
+    Hospital connectionDB = new Hospital();
+    Connection connection = connectionDB.getConnection();
 
     /**
-     * Creates new form Home
+     * Creates new form Patients
      */
-    public Home() {
+    public Patients() {
         initComponents();
+        showPatients();
     }
     
+    private void showPatients(){
+        
+        int columnCount;
+        
+        try {
+            PreparedStatement pst = connection.prepareStatement("select * from patients");
+            ResultSet set = pst.executeQuery();
+            ResultSetMetaData meta = set.getMetaData();
+            columnCount = meta.getColumnCount();
+            DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+            
+            model.setRowCount(0);
+            
+            while(set.next()){
+                Vector v2 = new Vector();           
+                
+                for(int i = 0; i <= columnCount; i++){
+                    v2.add((set.getString("patient_id")));
+                    v2.add((set.getString("date_of_visit")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("number")));
+                    v2.add((set.getString("address")));
+                    v2.add((set.getString("age")));
+                    v2.add((set.getString("doctor_visited")));
+                    v2.add((set.getString("ailment")));
+                    v2.add((set.getString("fees")));
+                }
+                
+                model.addRow(v2);
+                 System.out.println("Patients Successfully Loaded");
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Show patients error: \n" + e);
+        }
+        
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,74 +76,70 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        update = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        delete = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        date = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        patients_table = new javax.swing.JTable();
         name = new javax.swing.JTextField();
         number = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         age = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         ailment = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         fees = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         add = new javax.swing.JButton();
-        update = new javax.swing.JButton();
-        delete = new javax.swing.JButton();
+        date = new javax.swing.JFormattedTextField();
         doctor = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel6.setText("Age:");
+
+        update.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        update.setText("Update");
+
+        jLabel7.setText("Ailment:");
+
+        delete.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        delete.setText("Delete");
+
+        jLabel8.setText("Fees:");
+
+        jLabel9.setText("Doctor:");
+
+        patients_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Date of Visit", "Patient Name", "Mobile Number", "Address", "Age", "Doctor Visited", "Ailment", "Fees"
+                "ID", "Date of Visit", "Patient Name", "Mobile Number", "Address", "Age", "Doctor Visited", "Ailment", "Fees"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-
-        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
-        jLabel1.setText("PATIENT INFORMATION SYSTEM");
-
-        jLabel2.setText("Date of Visit:");
-
-        jLabel3.setText("Patient Name:");
-
-        jLabel4.setText("Mobile Number:");
-
-        jLabel5.setText("Address:");
-
-        jLabel6.setText("Age:");
-
-        jLabel7.setText("Ailment:");
-
-        jLabel8.setText("Fees:");
-
-        date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateActionPerformed(evt);
+        patients_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patients_tableMouseClicked(evt);
             }
         });
+        jScrollPane1.setViewportView(patients_table);
 
         name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,17 +147,28 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabel1.setText("PATIENT INFORMATION SYSTEM");
+
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressActionPerformed(evt);
             }
         });
 
+        jLabel2.setText("Date of Visit:");
+
+        jLabel3.setText("Patient Name:");
+
+        jLabel4.setText("Mobile Number:");
+
         fees.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 feesActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Address:");
 
         add.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         add.setText("Add");
@@ -127,11 +178,12 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        update.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        update.setText("Update");
-
-        delete.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        delete.setText("Delete");
+        date.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateActionPerformed(evt);
+            }
+        });
 
         doctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,16 +191,15 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Doctor:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(2, 2, 2)
                         .addComponent(add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(update)
@@ -158,11 +209,10 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
+                                .addGap(2, 2, 2)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6)
@@ -173,37 +223,37 @@ public class Home extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addGap(27, 27, 27)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(doctor)
+                            .addComponent(doctor, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(ailment)
-                                        .addComponent(fees, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fees, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(number, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(age, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+                                        .addComponent(address)
+                                        .addComponent(number)
+                                        .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
             .addGroup(layout.createSequentialGroup()
-                .addGap(287, 287, 287)
+                .addGap(523, 523, 523)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(114, 114, 114)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -228,25 +278,27 @@ public class Home extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel8))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(fees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(add)
                             .addComponent(update)
                             .addComponent(delete))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameActionPerformed
 
     private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
         // TODO add your handling code here:
@@ -256,51 +308,80 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_feesActionPerformed
 
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        String dateVal = date.getText();
+        String nameVal = name.getText();
+        String numberVal = number.getText();
+        String addressVal = address.getText();
+        String ageVal = age.getText();
+        String doctorVal = doctor.getText();
+        String ailmentVal = ailment.getText();
+        String feesVal = fees.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's name");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's address");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's age");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's fees");
+        }else{
+            
+            try{
+                  PreparedStatement pst = connection.prepareStatement("insert into patients (DATE_OF_VISIT, NAME, NUMBER, ADDRESS, AGE, DOCTOR_VISITED, AILMENT, FEES) values (?,?,?,?,?,?,?,?)");
+                       pst.setString(1, dateVal);
+                       pst.setString(2, nameVal);
+                       pst.setString(3, numberVal);
+                       pst.setString(4, addressVal);
+                       pst.setString(5, ageVal);
+                       pst.setString(6, doctorVal);
+                       pst.setString(7, ailmentVal);
+                       pst.setString(8, feesVal);
+                       
+                       pst.executeUpdate();
+                       JOptionPane.showMessageDialog(null, "Patient " + nameVal + " added successfully");
+                       
+                       date.setText("");
+                       name.setText("");
+                       number.setText("");
+                       address.setText("");
+                       age.setText("");
+                       doctor.setText("");
+                       ailment.setText("");
+                       fees.setText("");
+            }catch(Exception ex){
+                System.out.println("Insert Error: \n" + ex);
+            }
+             
+                       
+                       
+        }
+
+    }//GEN-LAST:event_addActionPerformed
+
     private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateActionPerformed
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
-
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        // TODO add your handling code here:
-            String dateVal = date.getText();
-            String nameVal = name.getText();
-            String numberVal = number.getText();
-            String addressVal = address.getText();
-            String ageVal = age.getText();
-            String doctorVal = doctor.getText();
-            String ailmentVal = ailment.getText();
-            String feesVal = fees.getText();
-           
-            
-            if(dateVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
-            } else if(nameVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's name");
-            }else if(numberVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
-            }else if(addressVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's address");
-            }else if(ageVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's age");
-            }else if(doctorVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
-            }else if(ailmentVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
-            }else if(feesVal.equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter patient's fees");
-            }else{
-                
-            }
-            
-    }//GEN-LAST:event_addActionPerformed
-
     private void doctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_doctorActionPerformed
+
+    private void patients_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patients_tableMouseClicked
+        // TODO add your handling code here:
+        
+        DefaultTableModel model = 
+    }//GEN-LAST:event_patients_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -319,20 +400,20 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patients.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patients.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patients.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patients.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                new Patients().setVisible(true);
             }
         });
     }
@@ -342,7 +423,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTextField address;
     private javax.swing.JTextField age;
     private javax.swing.JTextField ailment;
-    private javax.swing.JTextField date;
+    private javax.swing.JFormattedTextField date;
     private javax.swing.JButton delete;
     private javax.swing.JTextField doctor;
     private javax.swing.JTextField fees;
@@ -356,9 +437,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField number;
+    private javax.swing.JTable patients_table;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }
