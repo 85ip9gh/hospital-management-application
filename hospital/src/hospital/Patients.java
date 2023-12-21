@@ -350,6 +350,7 @@ public class Patients extends javax.swing.JFrame {
                        
                        pst.executeUpdate();
                        JOptionPane.showMessageDialog(null, "Patient " + nameVal + " added successfully");
+                       showPatients();
                        
                        date.setText("");
                        name.setText("");
@@ -380,7 +381,18 @@ public class Patients extends javax.swing.JFrame {
     private void patients_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patients_tableMouseClicked
         // TODO add your handling code here:
         
-        DefaultTableModel model = 
+        DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+        int selectedIndex = patients_table.getSelectedRow();
+        
+        int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+        date.setText(model.getValueAt(selectedIndex, 1).toString());
+        name.setText(model.getValueAt(selectedIndex, 2).toString());
+        number.setText(model.getValueAt(selectedIndex, 3).toString());
+        address.setText(model.getValueAt(selectedIndex, 4).toString());
+        age.setText(model.getValueAt(selectedIndex, 5).toString());
+        doctor.setText(model.getValueAt(selectedIndex, 6).toString());
+        ailment.setText(model.getValueAt(selectedIndex, 7).toString());
+        fees.setText(model.getValueAt(selectedIndex, 8).toString());
     }//GEN-LAST:event_patients_tableMouseClicked
 
     /**
