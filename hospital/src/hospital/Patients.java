@@ -97,6 +97,12 @@ public class Patients extends javax.swing.JFrame {
         add = new javax.swing.JButton();
         doctor = new javax.swing.JTextField();
         date = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        searchNumber = new javax.swing.JTextField();
+        searchName = new javax.swing.JTextField();
+        search = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +120,11 @@ public class Patients extends javax.swing.JFrame {
 
         delete.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         delete.setText("Delete");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
 
         jLabel8.setText("Fees:");
 
@@ -195,6 +206,38 @@ public class Patients extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Search by name:");
+
+        jLabel11.setText("Search by mobile number:");
+
+        searchNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchNumberActionPerformed(evt);
+            }
+        });
+
+        searchName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchNameActionPerformed(evt);
+            }
+        });
+
+        search.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        search.setText("Search");
+        search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchMouseClicked(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jButton1.setText("Refresh Patients");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,9 +282,24 @@ public class Patients extends javax.swing.JFrame {
                                     .addComponent(ailment, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(search)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
                 .addGap(523, 523, 523)
                 .addComponent(jLabel1)
@@ -255,7 +313,15 @@ public class Patients extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(search)
+                            .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -294,7 +360,7 @@ public class Patients extends javax.swing.JFrame {
                             .addComponent(add)
                             .addComponent(update)
                             .addComponent(delete))))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -411,28 +477,28 @@ public class Patients extends javax.swing.JFrame {
         String feesVal = fees.getText();
 
         if(dateVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         } else if(nameVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's name");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(numberVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(addressVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's address");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(ageVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's age");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(doctorVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(ailmentVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(feesVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's fees");
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else{
             
             try{
                 
                 DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
                 int selectedIndex = patients_table.getSelectedRow();
-                String id = model.getValueAt(selectedIndex, 0).toString();
+                int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
                 
                   PreparedStatement pst = connection.prepareStatement("update patients set DATE_OF_VISIT =?, NAME =?, NUMBER =?, ADDRESS =?, AGE =?, DOCTOR_VISITED =?, AILMENT =?, FEES =? where patient_id=?");
 
@@ -444,7 +510,7 @@ public class Patients extends javax.swing.JFrame {
                        pst.setString(6, doctorVal);
                        pst.setString(7, ailmentVal);
                        pst.setString(8, feesVal);
-                       pst.setString(9, id);
+                       pst.setInt(9, id);
                        
                        pst.executeUpdate();
                        JOptionPane.showMessageDialog(null, "Patient " + nameVal + " updated successfully");
@@ -459,12 +525,167 @@ public class Patients extends javax.swing.JFrame {
                        ailment.setText("");
                        fees.setText("");
             }catch(Exception ex){
-                System.out.println("Insert Error: \n" + ex);
+                System.out.println("Update Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Update Error: \n" + ex);
             }
                             
         }
         
     }//GEN-LAST:event_updateMouseClicked
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        // TODO add your handling code here:
+         String dateVal = date.getText();
+        String nameVal = name.getText();
+        String numberVal = number.getText();
+        String addressVal = address.getText();
+        String ageVal = age.getText();
+        String doctorVal = doctor.getText();
+        String ailmentVal = ailment.getText();
+        String feesVal = fees.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else{
+            
+            try{
+                
+                DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+                int selectedIndex = patients_table.getSelectedRow();
+                int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+                
+                  PreparedStatement pst = connection.prepareStatement("delete from patients where patient_id=?");
+                       pst.setInt(1, id);
+                       
+                       pst.executeUpdate();
+                       JOptionPane.showMessageDialog(null, "Patient " + nameVal + " deleted successfully");
+                       showPatients();
+                       
+                       date.setText("");
+                       name.setText("");
+                       number.setText("");
+                       address.setText("");
+                       age.setText("");
+                       doctor.setText("");
+                       ailment.setText("");
+                       fees.setText("");
+            }catch(Exception ex){
+                System.out.println("Delete Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Update Error: \n" + ex);
+      
+            }
+            }
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void searchNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchNumberActionPerformed
+
+    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchNameActionPerformed
+
+    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+        // TODO add your handling code here:
+        int columnCount;
+        
+        if(!searchName.getText().equals("") && !searchNumber.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please search by either name or mobile number, not both");
+        }else if(!searchName.getText().equals("") && searchNumber.getText().equals("")){
+            try{
+                
+            PreparedStatement pst = connection.prepareStatement("select * from patients where name ilike  ?");
+            pst.setString(1, "%" + searchName.getText() + "%");
+            
+            ResultSet set = pst.executeQuery();
+            ResultSetMetaData meta = set.getMetaData();
+            columnCount = meta.getColumnCount();
+            DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+            
+            model.setRowCount(0);
+            
+            while(set.next()){
+                Vector v2 = new Vector();           
+                
+                for(int i = 0; i <= columnCount; i++){
+                    v2.add((set.getString("patient_id")));
+                    v2.add((set.getString("date_of_visit")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("number")));
+                    v2.add((set.getString("address")));
+                    v2.add((set.getString("age")));
+                    v2.add((set.getString("doctor_visited")));
+                    v2.add((set.getString("ailment")));
+                    v2.add((set.getString("fees")));
+                }
+                
+                model.addRow(v2);
+            }
+            }catch(Exception ex){
+                System.out.println("Search Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
+      
+            }
+            
+        }else if(searchName.getText().equals("") && !searchNumber.getText().equals("")){
+            try{
+                
+            PreparedStatement pst = connection.prepareStatement("select * from patients where number like ?");
+            pst.setString(1, "%" + searchNumber.getText() + "%");
+            
+            ResultSet set = pst.executeQuery();
+            ResultSetMetaData meta = set.getMetaData();
+            columnCount = meta.getColumnCount();
+            DefaultTableModel model = (DefaultTableModel)patients_table.getModel();
+            
+            model.setRowCount(0);
+            
+            while(set.next()){
+                Vector v2 = new Vector();           
+                
+                for(int i = 0; i <= columnCount; i++){
+                    v2.add((set.getString("patient_id")));
+                    v2.add((set.getString("date_of_visit")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("number")));
+                    v2.add((set.getString("address")));
+                    v2.add((set.getString("age")));
+                    v2.add((set.getString("doctor_visited")));
+                    v2.add((set.getString("ailment")));
+                    v2.add((set.getString("fees")));
+                }
+                
+                model.addRow(v2);
+            }
+            }catch(Exception ex){
+                System.out.println("Search Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
+      
+            }
+        }else{
+            showPatients();
+        }
+        
+    }//GEN-LAST:event_searchMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        showPatients();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -510,7 +731,10 @@ public class Patients extends javax.swing.JFrame {
     private javax.swing.JButton delete;
     private javax.swing.JTextField doctor;
     private javax.swing.JTextField fees;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -523,6 +747,9 @@ public class Patients extends javax.swing.JFrame {
     private javax.swing.JTextField name;
     private javax.swing.JTextField number;
     private javax.swing.JTable patients_table;
+    private javax.swing.JToggleButton search;
+    private javax.swing.JTextField searchName;
+    private javax.swing.JTextField searchNumber;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }
